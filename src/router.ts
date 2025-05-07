@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
-import { createProduct, getProductById, getProducts, updateProduct } from "./handlers/product";
+import { createProduct, deleteProduct, getProductById, getProducts, updateAvailability, updateProduct } from "./handlers/product";
 import { handleInputErrors } from "./middleware";
 const router = Router()
 
@@ -26,7 +26,7 @@ router.post("/",
 )
 
 router.put("/:id",
-    //validacion de datos   
+    param("id").isInt().withMessage("El id debe ser un numero entero"),
     body("name")
         .notEmpty().withMessage("El nombre del producto no puede estar vacio"),
 
@@ -40,12 +40,16 @@ router.put("/:id",
     updateProduct,
 )
 
-router.patch("/", (req, res) => {
-    res.json("desde PATCH")
-})
+router.patch("/:id",
+    param("id").isInt().withMessage("El id debe ser un numero entero"),
+    handleInputErrors,
+    updateAvailability
+)
 
-router.delete("/", (req, res) => {
-    res.json("desde DELETE")
-})
+router.delete("/:id",
+    param("id").isInt().withMessage("El id debe ser un numero entero"),
+    handleInputErrors,
+    deleteProduct
+)
 
 export default router 

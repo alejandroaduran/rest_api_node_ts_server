@@ -44,3 +44,22 @@ describe("Get /api/products", () => {
         expect(response.status).not.toBe(500)
     })
 })
+
+describe("Get /api/products/:id", () => {
+    it("should return a product by id", async () => {
+        const productID = 1
+        const response = await request(server).get(`"/api/products/${productID}"`)
+        expect(response.status).toBe(404) //not found
+        expect(response.body).toHaveProperty("error")
+        expect(response.body.error).toBe("Product not found")
+
+/*         expect(response.status).not.toBe(200) //ok
+        expect(response.body).toHaveProperty("data")
+        expect(response.body.data).toHaveProperty("id", 13)
+        expect(response.body.data).toHaveProperty("name")
+        expect(response.body.data).toHaveProperty("price")
+
+        expect(response.body).not.toHaveProperty("error")
+        expect(response.status).not.toBe(500) */
+    })
+})

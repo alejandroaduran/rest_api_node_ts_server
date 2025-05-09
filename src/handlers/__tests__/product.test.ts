@@ -8,6 +8,16 @@ describe("Post /api/products", () => {
         expect(response.body).toHaveProperty("errors")
     })
 
+
+    it("should display validation errors for invalid price", async () => {
+        const response = await request(server).post("/api/products").send({
+            name: "Test Product",
+            price: -10
+        })
+        expect(response.status).toBe(400) //bad request
+        expect(response.body).toHaveProperty("errors")
+    })
+    
     it("should create a new product", async () => {
         const response = await request(server).post("/api/products").send({
             name: "Test Product",

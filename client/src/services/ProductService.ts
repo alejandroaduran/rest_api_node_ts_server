@@ -1,5 +1,5 @@
 import axios from "axios";
-import { DraftProductSchema, ProductSchema, ProductsSchema } from "../types";
+import { DraftProductSchema, ProductsSchema } from "../types";
 import { safeParse } from "valibot";
 type productData = { [k: string]: FormDataEntryValue }
 
@@ -30,10 +30,15 @@ export async function getProducts() {
     try {
         const url = `${import.meta.env.VITE_API_URL}/api/products`;
         const { data } = await axios.get(url);
+
+        // Log the API response
+        console.log("API Response:", data);
+
         const result = safeParse(ProductsSchema, data.data);
         if (result.success) {
             return result.output;
         } else {
+            console.error("Validation Error:", result.error);
             throw new Error("Invalid data");
         }
     } catch (error) {

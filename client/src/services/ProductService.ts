@@ -10,7 +10,7 @@ export async function addProduct(data: productData) {
             name: data.name,
             price: +data.price
         });
-        console.log(result);
+        //console.log(result);
         if (result.success) {
             const url = `${import.meta.env.VITE_API_URL}/api/products`;
             const { data } = await axios.post(url, {

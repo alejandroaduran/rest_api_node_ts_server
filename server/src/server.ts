@@ -1,4 +1,5 @@
 import express from "express";
+import morgan from "morgan";
 import colors from "colors"
 import cors, { CorsOptions } from "cors";
 import swaggerUi from "swagger-ui-express";
@@ -45,6 +46,7 @@ server.use(cors(corsOptions))
 //leer datos de formularios
 server.use(express.json())
 
+server.use(morgan("dev"))
 server.use("/api/products", router)
 
 server.get("/api", (req, res) => {

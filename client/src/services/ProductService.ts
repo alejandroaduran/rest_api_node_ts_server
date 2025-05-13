@@ -1,6 +1,6 @@
 import axios from "axios";
 import { DraftProductSchema, ProductSchema, ProductsSchema, type Product } from "../types";
-import { safeParse } from "valibot";
+import { coerce, number, parse, safeParse } from "valibot";
 type productData = { [k: string]: FormDataEntryValue }
 
 export async function addProduct(data: productData) {
@@ -47,7 +47,7 @@ export async function getProducts() {
     }
 }
 
-export async function getProductById(id : Product["id"]) {
+export async function getProductById(id: Product["id"]) {
     try {
         const url = `${import.meta.env.VITE_API_URL}/api/products/${id}`;
         const { data } = await axios.get(url);
@@ -57,9 +57,10 @@ export async function getProductById(id : Product["id"]) {
 
         const result = safeParse(ProductSchema, data.data);
         if (result.success) {
+            console.log("Parsed Product:", result.output);
             return result.output;
         } else {
-            console.error("Validation Error:", result.error);
+            console.log("Validation Error");
             throw new Error("Invalid data");
         }
     } catch (error) {
@@ -69,5 +70,18 @@ export async function getProductById(id : Product["id"]) {
 }
 
 export async function updateProduct(data: productData, id: Product["id"]) {
-    
+    try {
+        const NumberSchema = coerce(number(), Number)
+        const result = safeParse(ProductSchema, {
+            id,
+            name: data.name,
+            price: parse(NumberSchema, data.price),
+            availability: data.availability === "true" ? true : false
+        })
+        //console.log(result);
+        if (result.success) {
+            const url = `${import.meta.env.VITE_API_URL}/api/products/${id}`;
+            await axios.put(url, result.output)
+        }
+    } catch (error) { }
 }

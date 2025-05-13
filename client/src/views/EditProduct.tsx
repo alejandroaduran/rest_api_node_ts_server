@@ -7,9 +7,9 @@ export async function loader({ params }: LoaderFunctionArgs) {
     //console.log(params.id);
     if (params.id !== undefined) {
         const product = await getProductById(+params.id)
-        //console.log(product);
+        console.log(product);
         if (!product) {
-            // throw new Response("", { status: 404, statusText: "Producto no encontrado" })
+            //throw new Response("", { status: 404, statusText: "Producto no encontrado" })
             return redirect("/");
         }
         return product

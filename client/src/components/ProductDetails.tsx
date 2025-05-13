@@ -26,11 +26,10 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             <td className="p-3 text-lg text-gray-800 ">
                 <div className="flex gap-2 items-center">
                     <button
-                        onClick={() => navigate(`/productos/${product.id}/editar`, {
-                            state: {
-                                product: product
-                            }
-                        })}
+                        onClick={() => {
+                            console.log(`Navigating to /productos/${product.id}/editar`);
+                            navigate(`/productos/${product.id}/editar`);
+                        }}
                         className="bg-indigo-600 p-2 text-white font-bold text-lg cursor-pointer rounded"
                     >
                         Editar

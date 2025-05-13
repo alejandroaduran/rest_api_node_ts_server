@@ -4,6 +4,8 @@ import colors from "colors"
 import cors, { CorsOptions } from "cors";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./config/swagger";
+import dotenv from "dotenv";
+dotenv.config();
 //import swaggerUi from "swagger-ui-express"
 //import swaggerJsDoc from "swagger-jsdoc"
 import router from "./router";
